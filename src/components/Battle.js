@@ -1,6 +1,12 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+const PlayerPreview = (props) => (
+  <div>
+  
+  </div>
+)
+
 class PlayerInput extends React.Component {
   constructor (props) {
     super(props)

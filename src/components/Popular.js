@@ -1,6 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import api from '../utils/api'
+import image from './placeholder150x150.jpg'
+import IronImage from './lib/IronImage'
+
 
 const SelectLanguage = (props) => {
   const languages = ['All', 'Python', 'JavaScript', 'Java', 'C++', 'Go', 'Ruby', 'HTML']
@@ -25,11 +28,14 @@ const RepoGrid = (props) =>
         <div className="popular-rank">#{index + 1}</div>
         <ul className="space-list-items">
           <li>
-            <img
-              className="avatar"
-              src={repo.owner.avatar_url}
-              alt={"Avatar for " + repo.owner.login}
-            />
+            <div 
+              className="avatar">
+              <IronImage
+                alt={"Avatar for " + repo.owner.login}
+                srcPreLoad={image}
+                srcLoaded={repo.owner.avatar_url}
+              />  
+            </div>
           </li>
           <li><a href={repo.html_url}>{repo.name}</a></li>
           <li>@{repo.owner.login}</li>
