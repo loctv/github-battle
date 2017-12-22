@@ -15,8 +15,10 @@ class IronImage extends Component {
     hdLoaderImg.src = this.props.srcLoaded
 
     hdLoaderImg.onload = () => {
-      this.ironImageHd.setAttribute('style', `background-image: url('${this.props.srcLoaded}')`)
-      this.ironImageHd.classList.add('iron-image-fade-in')
+      if (this.ironImageHd) {
+        this.ironImageHd.setAttribute('style', `background-image: url('${this.props.srcLoaded}')`)
+        this.ironImageHd.classList.add('iron-image-fade-in')
+      }  
     }
 
   }

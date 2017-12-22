@@ -121,7 +121,7 @@ class Battle extends React.Component {
             >
               <button 
                 className="btn-reset"
-                onClick={this.handleReset('playerOne')}
+                onClick={this.handleReset.bind(null, 'playerOne')}
               >Reset</button>
             </PlayerPreview>
           }
@@ -141,7 +141,7 @@ class Battle extends React.Component {
             >
               <button 
                 className="btn-reset"
-                onClick={this.handleReset('playerTwo')}
+                onClick={this.handleReset.bind(null, 'playerTwo')}
               >Reset</button>
             </PlayerPreview>
           }
