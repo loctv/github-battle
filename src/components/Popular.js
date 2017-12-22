@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import api from '../utils/api'
 import image from './placeholder150x150.jpg'
 import IronImage from './lib/IronImage'
+import Loading from './Loading'
 
 
 const SelectLanguage = (props) => {
@@ -91,7 +92,7 @@ class Popular extends React.Component {
           selectedLanguage={this.state.selectedLanguage}
           onSelect={this.updateLanguage} />
         { !this.state.repos
-          ? 'LOADING'
+          ? <Loading />
           : <RepoGrid repos={this.state.repos} />}
       </div>
     )

@@ -3,32 +3,7 @@ import PropTypes from 'prop-types'
 import IronImage from './lib/IronImage'
 import placeHolder from './placeholder150x150.jpg'
 import {Link} from 'react-router-dom'
-
-const PlayerPreview = (props) => (
-  <div>
-    <div className="column">
-      <div className="avatar">
-        <IronImage
-          srcLoaded={props.image}
-          srcPreload={placeHolder}
-          alt={'Avatar for ' + props.username}
-        />
-      </div>
-      <h2 className="username">@{props.username}</h2>
-    </div>
-    <button 
-      className="btn-reset"
-      onClick={props.onReset.bind(null, props.id)}
-    >Reset</button>
-  </div>
-)
-
-PlayerPreview.propTypes = {
-  id: PropTypes.string.isRequired,
-  image: PropTypes.string.isRequired,
-  username: PropTypes.string.isRequired,
-  onReset: PropTypes.func.isRequired
-}
+import PlayerPreview from './PlayerPreview'
 
 class PlayerInput extends React.Component {
   constructor (props) {
@@ -142,10 +117,13 @@ class Battle extends React.Component {
           {playerOneImage &&
             <PlayerPreview
               username={playerOneName}
-              image={playerOneImage}
-              id="playerOne"
-              onReset={this.handleReset}  
-            />
+              image={playerOneImage}  
+            >
+              <button 
+                className="btn-reset"
+                onClick={this.handleReset('playerOne')}
+              >Reset</button>
+            </PlayerPreview>
           }
           {!playerTwoName &&
             <PlayerInput
@@ -160,7 +138,12 @@ class Battle extends React.Component {
               image={playerTwoImage}
               id="playerTwo"
               onReset={this.handleReset}  
-            />
+            >
+              <button 
+                className="btn-reset"
+                onClick={this.handleReset('playerTwo')}
+              >Reset</button>
+            </PlayerPreview>
           }
         </div>
 
