@@ -59,6 +59,11 @@ a {
   border-radius: 50%;
 }
 
+.avatar > * {
+  overflow: hidden;
+  border-radius: 50%;
+}
+
 .nav {
   display: flex;
 
@@ -128,4 +133,16 @@ a {
   text-align: center;
   font-size: 30px;
   font-weight: 200;
+}
+
+.btn-reset {
+  color: #d0021b;
+  background-color: transparent;
+  width: 100%;
+  border: none;
+  display: block;
+}
+
+.btn-reset:hover {
+  cursor: pointer;
 }

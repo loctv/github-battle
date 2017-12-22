@@ -1,24 +1,47 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import IronImage from './lib/IronImage'
+import placeHolder from './placeholder150x150.jpg'
+import {Link} from 'react-router-dom'
 
 const PlayerPreview = (props) => (
   <div>
-  
+    <div className="column">
+      <div className="avatar">
+        <IronImage
+          srcLoaded={props.image}
+          srcPreload={placeHolder}
+          alt={'Avatar for ' + props.username}
+        />
+      </div>
+      <h2 className="username">@{props.username}</h2>
+    </div>
+    <button 
+      className="btn-reset"
+      onClick={props.onReset.bind(null, props.id)}
+    >Reset</button>
   </div>
 )
+
+PlayerPreview.propTypes = {
+  id: PropTypes.string.isRequired,
+  image: PropTypes.string.isRequired,
+  username: PropTypes.string.isRequired,
+  onReset: PropTypes.func.isRequired
+}
 
 class PlayerInput extends React.Component {
   constructor (props) {
     super(props)
-
+    
     this.state = {
       username: null
     }
-
+    
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
   }
-
+  
   handleChange (e) {
     const username = e.target.value
     this.setState(() => {
@@ -27,7 +50,7 @@ class PlayerInput extends React.Component {
       }
     })
   }
-
+  
   handleSubmit (e) {
     e.preventDefault()
     this.props.onSubmit(
@@ -35,7 +58,7 @@ class PlayerInput extends React.Component {
       this.state.username
     )
   }
-
+  
   render () {
     return (
       <form className="column" onSubmit={this.handleSubmit}>
@@ -53,9 +76,7 @@ class PlayerInput extends React.Component {
           className="button"
           type="submit"
           disabled={!this.state.username}
-        >
-          Submit
-        </button>
+        >Submit</button>
       </form>
     )
   }
@@ -70,7 +91,7 @@ PlayerInput.protoTypes = {
 class Battle extends React.Component {
   constructor (props) {
     super(props)
-
+    
     this.state = {
       playerOneName: '',
       playerTwoName: '',
@@ -79,6 +100,7 @@ class Battle extends React.Component {
     }
 
     this.handleSubmit = this.handleSubmit.bind(this)
+    this.handleReset = this.handleReset.bind(this)
   }
 
   handleSubmit (id, username) {
@@ -89,9 +111,24 @@ class Battle extends React.Component {
       return newState
     })
   }
+
+  handleReset (id) {
+    this.setState(() => {
+      let newState = {}
+      newState[id + 'Name'] = ''
+      newState[id + 'Image'] = null
+      return newState
+    })
+  }
   
   render () {
-    const {playerOneName, playerTwoName} = this.state
+    const {
+      playerOneName, 
+      playerTwoName,
+      playerOneImage,
+      playerTwoImage
+    } = this.state
+
     return (
       <div>
         <div className="row">
@@ -102,6 +139,14 @@ class Battle extends React.Component {
               onSubmit={this.handleSubmit}  
             />
           }
+          {playerOneImage &&
+            <PlayerPreview
+              username={playerOneName}
+              image={playerOneImage}
+              id="playerOne"
+              onReset={this.handleReset}  
+            />
+          }
           {!playerTwoName &&
             <PlayerInput
               label="Player Two"
@@ -109,7 +154,27 @@ class Battle extends React.Component {
               onSubmit={this.handleSubmit}  
             />
           }
+          {playerTwoImage &&
+            <PlayerPreview
+              username={playerTwoName}
+              image={playerTwoImage}
+              id="playerTwo"
+              onReset={this.handleReset}  
+            />
+          }
         </div>
+
+        {playerOneImage && playerTwoImage &&
+          <Link
+            className="button"
+            to={{
+              pathname: this.props.match.url + "/results",
+              search: `?playerOneName=${playerOneName}&playerTwoName=${playerTwoName}&`
+            }}
+          >
+            Battle
+          </Link>
+        }
       </div>
     )
   }
